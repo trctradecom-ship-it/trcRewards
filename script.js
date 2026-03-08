@@ -1,7 +1,7 @@
 let provider;
 let signer;
 let contract;
-let token;
+let token;  
 let user;
 
 const contractAddress="0xf4eE3240D8b817117b835D3a440890CA994dEBf6";

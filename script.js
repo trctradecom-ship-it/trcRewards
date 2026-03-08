@@ -135,16 +135,16 @@ document.getElementById("level").innerText = userData[1];
 document.getElementById("baseWeight").innerText = userData[2].toString();
 document.getElementById("tempWeight").innerText = userData[3].toString();
 
-const startRaw = (await contract.epochStart()).toNumber();
-const start = startRaw + (25 * 60 * 60) + (16 * 60 * 60) + 29;
 
-// display offset to show 7 Mar 9 PM
-const displayStart = start + (25 * 60 * 60) + (16 * 60) + 29;
+// FIXED EPOCH START TIME
+const start = Math.floor(new Date("2026-03-07T21:00:00+05:30").getTime()/1000);
 
-document.getElementById("epochStart").innerText = formatTime(displayStart);
+document.getElementById("epochStart").innerText = formatTime(start);
 
 const epochLength = 7 * 24 * 60 * 60;
-const next = displayStart + epochLength;
+const claimLength = 14 * 24 * 60 * 60;
+
+const next = start + epochLength;
 
 document.getElementById("nextEpoch").innerText = formatTime(next);
 
@@ -162,18 +162,24 @@ setInterval(async()=>{
 
 try{
 
-const start = (await contract.epochStart()).toNumber();
+// FIXED START
+const start = Math.floor(new Date("2026-03-07T21:00:00+05:30").getTime()/1000);
 
 const epochLength = 7 * 24 * 60 * 60;
-const next = start + epochLength;
+const claimLength = 14 * 24 * 60 * 60;
 
 let now = Math.floor(Date.now()/1000);
 
-let diff = next-now;
+let epochEnd = start + epochLength;
+let claimEnd = start + claimLength;
+
+let target = now < epochEnd ? epochEnd : claimEnd;
+
+let diff = target-now;
 
 if(diff<0) diff = 0;
 
-let d = Math.ceil(diff/86400);
+let d = Math.floor(diff/86400);
 let h = Math.floor((diff%86400)/3600);
 let m = Math.floor((diff%3600)/60);
 let s = diff%60;

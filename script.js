@@ -148,15 +148,19 @@ console.log("Total weight error",e);
 
 /* EPOCH TIME FROM CONTRACT */
 
-const start = (await contract.epochStart()).toNumber();
+const start = Math.floor(new Date("2026-03-07T21:00:00+05:30").getTime()/1000);
 
 document.getElementById("epochStart").innerText = formatTime(start);
 
 const epochLength = 7 * 24 * 60 * 60;
 
-const next = start + epochLength;
+let now = Math.floor(Date.now()/1000);
 
-document.getElementById("nextEpoch").innerText = formatTime(next);
+let epochNumber = Math.floor((now - start) / epochLength);
+
+let nextEpoch = start + ((epochNumber + 1) * epochLength);
+
+document.getElementById("nextEpoch").innerText = formatTime(nextEpoch);
 
 }catch(e){
 

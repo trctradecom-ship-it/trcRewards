@@ -134,8 +134,9 @@ const userData = await contract.users(user);
 document.getElementById("level").innerText = userData[1];
 document.getElementById("baseWeight").innerText = userData[2].toString();
 document.getElementById("tempWeight").innerText = userData[3].toString();
-document.getElementById("totalWeight").innerText =
-await contract.totalWeight();
+
+const totalWeight = await contract.totalWeight();
+document.getElementById("totalWeight").innerText = ethers.utils.formatUnits(totalWeight,0);  
 
 // FIXED EPOCH START TIME
 const start = Math.floor(new Date("2026-03-07T21:00:00+05:30").getTime()/1000);

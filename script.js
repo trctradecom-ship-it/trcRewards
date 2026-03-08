@@ -138,13 +138,13 @@ document.getElementById("tempWeight").innerText = userData[3].toString();
 const startRaw = (await contract.epochStart()).toNumber();
 const start = startRaw + (25 * 60 * 60) + (16 * 60 * 60) + 29;
 
-// shift time to match 7 Mar 9 PM display
-const start = startRaw + (25 * 60 * 60) + (16 * 60 * 60) + 29; 
+// display offset to show 7 Mar 9 PM
+const displayStart = start + (25 * 60 * 60) + (16 * 60) + 29;
 
-document.getElementById("epochStart").innerText = formatTime(start);
+document.getElementById("epochStart").innerText = formatTime(displayStart);
 
 const epochLength = 7 * 24 * 60 * 60;
-const next = start + epochLength;
+const next = displayStart + epochLength;
 
 document.getElementById("nextEpoch").innerText = formatTime(next);
 

@@ -1,7 +1,7 @@
 let provider;
 let signer;
 let contract;
-let token;  
+let token;
 let user;
 
 const contractAddress="0xf4eE3240D8b817117b835D3a440890CA994dEBf6";
@@ -12,8 +12,10 @@ const abi=[
 "function currentEpoch() view returns(uint256)",
 "function downlineCount(address) view returns(uint256)",
 "function epochStart() view returns(uint256)",
+"function epochTotalWeight() view returns(uint256)",
 "function pendingReward(address) view returns(uint256)",
 "function getTRCPriceUSD() view returns(uint256)",
+"function users(address) view returns(address,uint8,uint256,uint256,uint256)",
 
 "function register(address)",
 "function joinLevel1()",
@@ -30,11 +32,21 @@ const tokenABI=[
 "function approve(address,uint256) returns(bool)"
 ];
 
-let chart;
-let prices=[];
-
 function updateStatus(msg){
 document.getElementById("status").innerHTML=msg;
+}
+
+function human(value){
+return Number(ethers.utils.formatUnits(value,18)).toFixed(2);
+}
+
+function usd(value){
+return Number(value/1e8).toFixed(2);
+}
+
+function formatTime(ts){
+let d=new Date(ts*1000);
+return d.toLocaleString();
 }
 
 async function connectWallet(){
@@ -51,104 +63,117 @@ document.getElementById("wallet").innerText=user;
 contract=new ethers.Contract(contractAddress,abi,signer);
 token=new ethers.Contract(tokenAddress,tokenABI,signer);
 
-startChart();
-
 loadData();
+startTimers();
 
 }
 
 async function loadData(){
 
+try{
+
 const price=await contract.getTRCPriceUSD();
-const priceUSD=(price/1e8).toFixed(2);
+document.getElementById("price").innerText="$"+usd(price);
 
-document.getElementById("price").innerText="$"+priceUSD;
-
-prices.push(priceUSD);
-
-if(prices.length>20) prices.shift();
-
-chart.update();
-
-const epoch=await contract.currentEpoch();
-
-document.getElementById("epoch").innerText=epoch;
+document.getElementById("epoch").innerText=
+(await contract.currentEpoch()).toString();
 
 document.getElementById("downline").innerText=
-await contract.downlineCount(user);
+(await contract.downlineCount(user)).toString();
 
 document.getElementById("pending").innerText=
-await contract.pendingReward(user);
+human(await contract.pendingReward(user));
+
+document.getElementById("epochWeight").innerText=
+human(await contract.epochTotalWeight());
+
+const userData=await contract.users(user);
+
+document.getElementById("level").innerText=userData.level;
+
+document.getElementById("baseWeight").innerText=
+human(userData.baseWeight);
+
+document.getElementById("tempWeight").innerText=
+human(userData.tempWeight);
 
 const start=await contract.epochStart();
 
+document.getElementById("epochStart").innerText=formatTime(start);
+
 let next=start+604800;
 
-startTimer(next);
+document.getElementById("nextEpoch").innerText=formatTime(next);
+
+document.getElementById("nextClaim").innerText=formatTime(next);
+
+}catch(e){
+console.log(e);
+}
 
 }
 
-function startTimer(next){
+function startTimers(){
 
-setInterval(()=>{
+setInterval(async()=>{
+
+try{
+
+const start=await contract.epochStart();
+let next=start+604800;
 
 let now=Math.floor(Date.now()/1000);
-
 let diff=next-now;
+
+if(diff<0) diff=0;
 
 let d=Math.floor(diff/86400);
 let h=Math.floor((diff%86400)/3600);
 let m=Math.floor((diff%3600)/60);
 let s=diff%60;
 
-let txt=d+"d "+h+"h "+m+"m "+s+"s";
+let text=d+"d "+h+"h "+m+"m "+s+"s";
 
-document.getElementById("epochTimer").innerText=txt;
-document.getElementById("claimTimer").innerText=txt;
+document.getElementById("epochTimer").innerText=text;
+document.getElementById("claimTimer").innerText=text;
+
+}catch(e){}
 
 },1000)
 
 }
 
-function startChart(){
-
-const ctx=document.getElementById("priceChart");
-
-chart=new Chart(ctx,{
-type:'line',
-data:{
-labels:Array(20).fill(""),
-datasets:[{
-label:"TRC Price",
-data:prices,
-borderColor:"#FFD700",
-backgroundColor:"rgba(255,215,0,0.2)"
-}]
-}
-});
-
-}
-
 async function handleTx(tx){
 
-updateStatus("Transaction Sent...");
+try{
+
+updateStatus("⏳ Transaction sent...");
 
 const sent=await tx;
 
 updateStatus(`
+Transaction submitted<br>
 <a href="https://polygonscan.com/tx/${sent.hash}" target="_blank">
-View Transaction
+View on PolygonScan
 </a>
 `);
 
 await sent.wait();
 
 updateStatus(`
-Confirmed<br>
+✅ Transaction Confirmed<br>
 <a href="https://polygonscan.com/tx/${sent.hash}" target="_blank">
-Open in PolygonScan
+Open PolygonScan
 </a>
 `);
+
+loadData();
+
+}catch(e){
+
+updateStatus("❌ Transaction failed or rejected");
+
+}
 
 }
 

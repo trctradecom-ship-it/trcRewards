@@ -184,4 +184,10 @@ grid-template-columns:1fr;
 font-size:10px;
 }
 
+ #price{
+color:#16c784;
+font-weight:bold;
+text-shadow:0 0 6px #16c784;
+} 
+  
 }

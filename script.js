@@ -135,7 +135,11 @@ document.getElementById("level").innerText = userData[1];
 document.getElementById("baseWeight").innerText = userData[2].toString();
 document.getElementById("tempWeight").innerText = userData[3].toString();
 
-const start = (await contract.epochStart()).toNumber();
+const startRaw = (await contract.epochStart()).toNumber();
+const start = startRaw + (25 * 60 * 60) + (16 * 60 * 60) + 29;
+
+// shift time to match 7 Mar 9 PM display
+const start = startRaw + (25 * 60 * 60) + (16 * 60 * 60) + 29; 
 
 document.getElementById("epochStart").innerText = formatTime(start);
 

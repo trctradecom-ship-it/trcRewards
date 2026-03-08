@@ -11,9 +11,7 @@ const abi=[
 
 "function currentEpoch() view returns(uint256)",
 "function downlineCount(address) view returns(uint256)",
-"function epochRewardSnapshot() view returns(uint256)",
 "function epochStart() view returns(uint256)",
-"function epochTotalWeight() view returns(uint256)",
 "function pendingReward(address) view returns(uint256)",
 "function getTRCPriceUSD() view returns(uint256)",
 
@@ -32,15 +30,11 @@ const tokenABI=[
 "function approve(address,uint256) returns(bool)"
 ];
 
+let chart;
+let prices=[];
+
 function updateStatus(msg){
 document.getElementById("status").innerHTML=msg;
-}
-
-function formatTime(ts){
-
-let d=new Date(ts*1000);
-return d.toLocaleString();
-
 }
 
 async function connectWallet(){
@@ -48,7 +42,6 @@ async function connectWallet(){
 await window.ethereum.request({method:'eth_requestAccounts'});
 
 provider=new ethers.providers.Web3Provider(window.ethereum);
-
 signer=provider.getSigner();
 
 user=await signer.getAddress();
@@ -56,8 +49,9 @@ user=await signer.getAddress();
 document.getElementById("wallet").innerText=user;
 
 contract=new ethers.Contract(contractAddress,abi,signer);
-
 token=new ethers.Contract(tokenAddress,tokenABI,signer);
+
+startChart();
 
 loadData();
 
@@ -70,25 +64,68 @@ const priceUSD=(price/1e8).toFixed(2);
 
 document.getElementById("price").innerText="$"+priceUSD;
 
-document.getElementById("epoch").innerText=await contract.currentEpoch();
+prices.push(priceUSD);
 
-document.getElementById("downline").innerText=await contract.downlineCount(user);
+if(prices.length>20) prices.shift();
 
-document.getElementById("snapshot").innerText=(await contract.epochRewardSnapshot()).toString();
+chart.update();
+
+const epoch=await contract.currentEpoch();
+
+document.getElementById("epoch").innerText=epoch;
+
+document.getElementById("downline").innerText=
+await contract.downlineCount(user);
+
+document.getElementById("pending").innerText=
+await contract.pendingReward(user);
 
 const start=await contract.epochStart();
 
-document.getElementById("epochStart").innerText=formatTime(start);
-
 let next=start+604800;
 
-document.getElementById("nextEpoch").innerText=formatTime(next);
+startTimer(next);
 
-document.getElementById("nextClaim").innerText=formatTime(next);
+}
 
-document.getElementById("epochWeight").innerText=(await contract.epochTotalWeight()).toString();
+function startTimer(next){
 
-document.getElementById("pending").innerText=(await contract.pendingReward(user)).toString();
+setInterval(()=>{
+
+let now=Math.floor(Date.now()/1000);
+
+let diff=next-now;
+
+let d=Math.floor(diff/86400);
+let h=Math.floor((diff%86400)/3600);
+let m=Math.floor((diff%3600)/60);
+let s=diff%60;
+
+let txt=d+"d "+h+"h "+m+"m "+s+"s";
+
+document.getElementById("epochTimer").innerText=txt;
+document.getElementById("claimTimer").innerText=txt;
+
+},1000)
+
+}
+
+function startChart(){
+
+const ctx=document.getElementById("priceChart");
+
+chart=new Chart(ctx,{
+type:'line',
+data:{
+labels:Array(20).fill(""),
+datasets:[{
+label:"TRC Price",
+data:prices,
+borderColor:"#FFD700",
+backgroundColor:"rgba(255,215,0,0.2)"
+}]
+}
+});
 
 }
 

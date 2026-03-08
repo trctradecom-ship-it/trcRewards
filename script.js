@@ -172,37 +172,48 @@ console.log(e);
 
 function startTimers(){
 
-setInterval(async()=>{
+setInterval(()=>{
 
 try{
 
-const start = (await contract.epochStart()).toNumber();
+const start = Math.floor(new Date("2026-03-07T21:00:00+05:30").getTime()/1000);
 
 const epochLength = 7 * 24 * 60 * 60;
 const claimLength = 14 * 24 * 60 * 60;
 
 let now = Math.floor(Date.now()/1000);
 
-let epochEnd = start + epochLength;
-let claimEnd = start + claimLength;
+/* NEXT EPOCH */
 
-let target = now < epochEnd ? epochEnd : claimEnd;
+let epochNumber = Math.floor((now - start) / epochLength);
+if(epochNumber < 0) epochNumber = 0;
 
-let diff = target-now;
+let nextEpoch = start + ((epochNumber + 1) * epochLength);
 
-if(diff<0) diff = 0;
+/* EPOCH COUNTDOWN */
 
-let d = Math.floor(diff/86400);
-let h = Math.floor((diff%86400)/3600);
-let m = Math.floor((diff%3600)/60);
-let s = diff%60;
+let remaining = nextEpoch - now;
 
-let timer = d+"d "+h+"h "+m+"m "+s+"s";
+let d = Math.floor(remaining / 86400);
+let h = Math.floor((remaining % 86400) / 3600);
+let m = Math.floor((remaining % 3600) / 60);
+let s = remaining % 60;
 
-document.getElementById("epochTimer").innerText = timer;
-document.getElementById("claimTimer").innerText = timer;
+document.getElementById("epochCountdown").innerText =
+d + "d " + h + "h " + m + "m " + s + "s";
 
-}catch(e){}
+/* NEXT CLAIM */
+
+let claimNumber = Math.floor((now - start) / claimLength);
+if(claimNumber < 0) claimNumber = 0;
+
+let nextClaim = start + ((claimNumber + 1) * claimLength);
+
+document.getElementById("nextClaim").innerText = formatTime(nextClaim);
+
+}catch(e){
+console.log(e);
+}
 
 },1000);
 

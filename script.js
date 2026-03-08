@@ -206,12 +206,16 @@ let s = remaining % 60;
 document.getElementById("epochTimer").innerText =
 d + " days " + h + " hr " + m + " min " + s + " sec";
 
-/* NEXT CLAIM - running countdown */
+/* nextclaim COUNTDOWN */    
 setInterval(() => {
     try {
-        let now = Math.floor(Date.now() / 1000); // current time in seconds
+        // Current time in seconds
+        let now = Math.floor(Date.now() / 1000);
 
-        // Set next claim duration: 6 days, 1 hr, 50 min
+        // Add IST offset (UTC+5:30 = 19800 seconds)
+        now += 19800;
+
+        // Set Next Claim duration: 6 days, 1 hr, 50 min
         let nextClaimLength = (6 * 86400) + (1 * 3600) + (50 * 60);
 
         // Next claim timestamp
@@ -231,11 +235,11 @@ setInterval(() => {
         let cm = Math.floor(claimRemaining / 60);
         let cs = claimRemaining % 60;
 
-        // Display timer
+        // Display countdown
         document.getElementById("claimTimer").innerText =
             cd + " days " + ch + " hr " + cm + " min " + cs + " sec";
 
-  
+    
 }catch(e){
 console.log(e);
 }

@@ -206,7 +206,7 @@ let s = remaining % 60;
 document.getElementById("epochTimer").innerText =
 d + " days " + h + " hr " + m + " min " + s + " sec";
 
-/* nextclaim COUNTDOWN */    
+   
 setInterval(() => {
     try {
         // Current time in seconds
@@ -238,8 +238,7 @@ setInterval(() => {
         // Display countdown
         document.getElementById("claimTimer").innerText =
             cd + " days " + ch + " hr " + cm + " min " + cs + " sec";
-
-    
+        
 }catch(e){
 console.log(e);
 }

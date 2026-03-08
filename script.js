@@ -146,7 +146,7 @@ ethers.utils.formatUnits(totalWeight,0);
 console.log("Total weight error",e);
 }
 
-/* EPOCH TIME FROM CONTRACT */
+/* EPOCH TIME */
 
 const start = Math.floor(new Date("2026-03-07T21:00:00+05:30").getTime()/1000);
 
@@ -193,7 +193,6 @@ let nextEpoch = start + ((epochNumber + 1) * epochLength);
 /* EPOCH COUNTDOWN */
 
 let remaining = nextEpoch - now;
-
 if(remaining < 0) remaining = 0;
 
 let d = Math.floor(remaining / 86400);
@@ -203,8 +202,8 @@ let h = Math.floor(remaining / 3600);
 remaining = remaining % 3600;
 
 let m = Math.floor(remaining / 60);
-  
-document.getElementById("epochCountdown").innerText =
+
+document.getElementById("epochTimer").innerText =
 d + " days " + h + " hr " + m + " min";
 
 /* NEXT CLAIM */
@@ -214,7 +213,19 @@ if(claimNumber < 0) claimNumber = 0;
 
 let nextClaim = start + ((claimNumber + 1) * claimLength);
 
-document.getElementById("nextClaim").innerText = formatTime(nextClaim);
+let claimRemaining = nextClaim - now;
+if(claimRemaining < 0) claimRemaining = 0;
+
+let cd = Math.floor(claimRemaining / 86400);
+claimRemaining = claimRemaining % 86400;
+
+let ch = Math.floor(claimRemaining / 3600);
+claimRemaining = claimRemaining % 3600;
+
+let cm = Math.floor(claimRemaining / 60);
+
+document.getElementById("claimTimer").innerText =
+cd + " days " + ch + " hr " + cm + " min";
 
 }catch(e){
 console.log(e);

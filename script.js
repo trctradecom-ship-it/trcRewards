@@ -196,10 +196,14 @@ let remaining = nextEpoch - now;
 
 if(remaining < 0) remaining = 0;
 
-let d = Math.ceil(remaining / 86400);
-let h = Math.floor((remaining % 86400) / 3600);
-let m = Math.floor((remaining % 3600) / 60);
+let d = Math.floor(remaining / 86400);
+remaining = remaining % 86400;
 
+let h = Math.floor(remaining / 3600);
+remaining = remaining % 3600;
+
+let m = Math.floor(remaining / 60);
+  
 document.getElementById("epochCountdown").innerText =
 d + " days " + h + " hr " + m + " min";
 

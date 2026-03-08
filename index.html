@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
- 
+
 <head>
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>TRC Reward Dashboard</title>
+<title>TRC Pro Dashboard</title>
 
 <link rel="stylesheet" href="style.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
@@ -17,7 +17,7 @@
 
 <div class="container">
 
-<h1>TRC Reward Dashboard</h1>
+<h1>TRC PRO DASHBOARD</h1>
 
 <div class="topbar">
 
@@ -34,31 +34,29 @@ TRC Price
 Connect Wallet
 </button>
 
+<div class="chartBox">
+<canvas id="priceChart"></canvas>
+</div>
+
 <div class="card">
 
-<h2>Dashboard</h2>
+<h2>System Info</h2>
 
 <div class="grid">
 
 <div>Current Epoch<br><span id="epoch"></span></div>
 
+<div>User Level<br><span id="level"></span></div>
+
 <div>Downline Count<br><span id="downline"></span></div>
-
-<div>Epoch Reward Snapshot<br><span id="snapshot"></span></div>
-
-<div>Epoch Start<br><span id="epochStart"></span></div>
-
-<div>Next Epoch<br><span id="nextEpoch"></span></div>
-
-<div>Epoch Total Weight<br><span id="epochWeight"></span></div>
 
 <div>Pending Reward<br><span id="pending"></span></div>
 
-<div>Next Claim Date<br><span id="nextClaim"></span></div>
+<div>Epoch Countdown<br><span id="epochTimer"></span></div>
+
+<div>Next Claim<br><span id="claimTimer"></span></div>
 
 </div>
-
-<button onclick="loadData()">Refresh</button>
 
 </div>
 
@@ -67,7 +65,6 @@ Connect Wallet
 <h2>Register</h2>
 
 <input id="ref" placeholder="Referral Address">
-
 <button onclick="register()">Register</button>
 
 </div>
@@ -77,7 +74,6 @@ Connect Wallet
 <h2>Approve TRC</h2>
 
 <input id="approveAmount" placeholder="TRC Amount">
-
 <button onclick="approveTRC()">Approve</button>
 
 </div>
@@ -101,9 +97,9 @@ Connect Wallet
 
 <div class="card">
 
-<h2>Claim Weekly Reward</h2>
+<h2>Claim Reward</h2>
 
-<button onclick="claimReward()">Claim Reward</button>
+<button onclick="claimReward()">Claim Weekly Reward</button>
 
 </div>
 

@@ -127,19 +127,19 @@ document.getElementById("pending").innerText =
 human(await contract.pendingReward(user));
 
 document.getElementById("epochWeight").innerText =
-human(await contract.epochTotalWeight());
+(await contract.epochTotalWeight()).toString();
 
 const userData = await contract.users(user);
 
 document.getElementById("level").innerText = userData[1];
-document.getElementById("baseWeight").innerText = human(userData[2]);
-document.getElementById("tempWeight").innerText = human(userData[3]);
+document.getElementById("baseWeight").innerText = userData[2].toString();
+document.getElementById("tempWeight").innerText = userData[3].toString();
 
 const start = (await contract.epochStart()).toNumber();
 
 document.getElementById("epochStart").innerText = formatTime(start);
 
-const epochLength = 604800;
+const epochLength = 7 * 24 * 60 * 60;
 const next = start + epochLength;
 
 document.getElementById("nextEpoch").innerText = formatTime(next);
@@ -160,7 +160,7 @@ try{
 
 const start = (await contract.epochStart()).toNumber();
 
-const epochLength = 604800;
+const epochLength = 7 * 24 * 60 * 60;
 const next = start + epochLength;
 
 let now = Math.floor(Date.now()/1000);
@@ -169,7 +169,7 @@ let diff = next-now;
 
 if(diff<0) diff = 0;
 
-let d = Math.floor(diff/86400);
+let d = Math.ceil(diff/86400);
 let h = Math.floor((diff%86400)/3600);
 let m = Math.floor((diff%3600)/60);
 let s = diff%60;

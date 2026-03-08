@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>TRC Reward Dashboard</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>TRC Reward Dashboard</h1>
+
+<div class="topbar">
+
+<div>
+TRC Price
+<span id="price">$0</span>
+</div>
+
+<div id="wallet">Wallet Not Connected</div>
+
+</div>
+
+<button onclick="connectWallet()" class="mainBtn">
+Connect Wallet
+</button>
+
+<div class="card">
+
+<h2>Dashboard</h2>
+
+<div class="grid">
+
+<div>Current Epoch<br><span id="epoch"></span></div>
+
+<div>Downline Count<br><span id="downline"></span></div>
+
+<div>Epoch Reward Snapshot<br><span id="snapshot"></span></div>
+
+<div>Epoch Start<br><span id="epochStart"></span></div>
+
+<div>Next Epoch<br><span id="nextEpoch"></span></div>
+
+<div>Epoch Total Weight<br><span id="epochWeight"></span></div>
+
+<div>Pending Reward<br><span id="pending"></span></div>
+
+<div>Next Claim Date<br><span id="nextClaim"></span></div>
+
+</div>
+
+<button onclick="loadData()">Refresh</button>
+
+</div>
+
+<div class="card">
+
+<h2>Register</h2>
+
+<input id="ref" placeholder="Referral Address">
+
+<button onclick="register()">Register</button>
+
+</div>
+
+<div class="card">
+
+<h2>Approve TRC</h2>
+
+<input id="approveAmount" placeholder="TRC Amount">
+
+<button onclick="approveTRC()">Approve</button>
+
+</div>
+
+<div class="card">
+
+<h2>Join Levels</h2>
+
+<div class="grid">
+
+<button onclick="joinLevel(1)">Level 1 ($20)</button>
+<button onclick="joinLevel(2)">Level 2 ($40)</button>
+<button onclick="joinLevel(3)">Level 3 ($80)</button>
+<button onclick="joinLevel(4)">Level 4 ($160)</button>
+<button onclick="joinLevel(5)">Level 5 ($320)</button>
+<button onclick="joinLevel(6)">Level 6 ($640)</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Claim Weekly Reward</h2>
+
+<button onclick="claimReward()">Claim Reward</button>
+
+</div>
+
+<div class="card">
+
+<h2>Transaction Status</h2>
+
+<p id="status"></p>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -3,11 +3,12 @@ let signer;
 let contract;
 let token;
 let user;
+let chart;
 
-const contractAddress="0xf4eE3240D8b817117b835D3a440890CA994dEBf6";
-const tokenAddress="0xc08983be707bf4b763e7A0f3cCAD3fd00af6620d";
+const contractAddress = "0xf4eE3240D8b817117b835D3a440890CA994dEBf6";
+const tokenAddress = "0xc08983be707bf4b763e7A0f3cCAD3fd00af6620d";
 
-const abi=[
+const abi = [
 
 "function currentEpoch() view returns(uint256)",
 "function downlineCount(address) view returns(uint256)",
@@ -28,12 +29,12 @@ const abi=[
 
 ];
 
-const tokenABI=[
+const tokenABI = [
 "function approve(address,uint256) returns(bool)"
 ];
 
 function updateStatus(msg){
-document.getElementById("status").innerHTML=msg;
+document.getElementById("status").innerHTML = msg;
 }
 
 function human(v){
@@ -45,23 +46,48 @@ return Number(ethers.utils.formatUnits(v,18)).toFixed(4);
 }
 
 function formatTime(ts){
-let d=new Date(ts*1000);
+let d = new Date(ts*1000);
 return d.toLocaleString();
+}
+
+function initChart(){
+
+const ctx = document.getElementById("priceChart").getContext("2d");
+
+chart = new Chart(ctx,{
+type:"line",
+data:{
+labels:["Start"],
+datasets:[{
+label:"TRC Price USD",
+data:[0],
+fill:true,
+tension:0.4
+}]
+},
+options:{
+responsive:true,
+plugins:{
+legend:{display:true}
+}
+}
+});
+
 }
 
 async function connectWallet(){
 
 await window.ethereum.request({method:'eth_requestAccounts'});
 
-provider=new ethers.providers.Web3Provider(window.ethereum);
-signer=provider.getSigner();
+provider = new ethers.providers.Web3Provider(window.ethereum);
+signer = provider.getSigner();
 
-user=await signer.getAddress();
+user = await signer.getAddress();
 
-document.getElementById("wallet").innerText=user;
+document.getElementById("wallet").innerText = user;
 
-contract=new ethers.Contract(contractAddress,abi,signer);
-token=new ethers.Contract(tokenAddress,tokenABI,signer);
+contract = new ethers.Contract(contractAddress,abi,signer);
+token = new ethers.Contract(tokenAddress,tokenABI,signer);
 
 loadData();
 startTimers();
@@ -72,37 +98,56 @@ async function loadData(){
 
 try{
 
-const price=await contract.getTRCPriceUSD();
-document.getElementById("price").innerText="$"+usd(price);
+const price = await contract.getTRCPriceUSD();
+const usdPrice = usd(price);
 
-document.getElementById("epoch").innerText=
+document.getElementById("price").innerText = "$"+usdPrice;
+
+if(chart){
+
+chart.data.labels.push(new Date().toLocaleTimeString());
+chart.data.datasets[0].data.push(usdPrice);
+
+if(chart.data.labels.length>20){
+chart.data.labels.shift();
+chart.data.datasets[0].data.shift();
+}
+
+chart.update();
+
+}
+
+document.getElementById("epoch").innerText =
 (await contract.currentEpoch()).toString();
 
-document.getElementById("downline").innerText=
+document.getElementById("downline").innerText =
 (await contract.downlineCount(user)).toString();
 
-document.getElementById("pending").innerText=
+document.getElementById("pending").innerText =
 human(await contract.pendingReward(user));
 
-document.getElementById("epochWeight").innerText=
+document.getElementById("epochWeight").innerText =
 human(await contract.epochTotalWeight());
 
-const userData=await contract.users(user);
+const userData = await contract.users(user);
 
-document.getElementById("level").innerText=userData[1];
-document.getElementById("baseWeight").innerText=human(userData[2]);
-document.getElementById("tempWeight").innerText=human(userData[3]);
+document.getElementById("level").innerText = userData[1];
+document.getElementById("baseWeight").innerText = human(userData[2]);
+document.getElementById("tempWeight").innerText = human(userData[3]);
 
-const start=(await contract.epochStart()).toNumber();
+const start = (await contract.epochStart()).toNumber();
 
-document.getElementById("epochStart").innerText=formatTime(start);
+document.getElementById("epochStart").innerText = formatTime(start);
 
-let next=start+604800;
+const epochLength = 604800;
+const next = start + epochLength;
 
-document.getElementById("nextEpoch").innerText=formatTime(next);
+document.getElementById("nextEpoch").innerText = formatTime(next);
 
 }catch(e){
+
 console.log(e);
+
 }
 
 }
@@ -113,29 +158,30 @@ setInterval(async()=>{
 
 try{
 
-const start=(await contract.epochStart()).toNumber();
+const start = (await contract.epochStart()).toNumber();
 
-let next=start+604800;
+const epochLength = 604800;
+const next = start + epochLength;
 
-let now=Math.floor(Date.now()/1000);
+let now = Math.floor(Date.now()/1000);
 
-let diff=next-now;
+let diff = next-now;
 
-if(diff<0) diff=0;
+if(diff<0) diff = 0;
 
-let d=Math.floor(diff/86400);
-let h=Math.floor((diff%86400)/3600);
-let m=Math.floor((diff%3600)/60);
-let s=diff%60;
+let d = Math.floor(diff/86400);
+let h = Math.floor((diff%86400)/3600);
+let m = Math.floor((diff%3600)/60);
+let s = diff%60;
 
-let text=d+"d "+h+"h "+m+"m "+s+"s";
+let timer = d+"d "+h+"h "+m+"m "+s+"s";
 
-document.getElementById("epochTimer").innerText=text;
-document.getElementById("claimTimer").innerText=text;
+document.getElementById("epochTimer").innerText = timer;
+document.getElementById("claimTimer").innerText = timer;
 
 }catch(e){}
 
-},1000)
+},1000);
 
 }
 
@@ -145,7 +191,7 @@ try{
 
 updateStatus("⏳ Transaction sent...");
 
-const sent=await tx;
+const sent = await tx;
 
 updateStatus(`
 Transaction submitted<br>
@@ -167,7 +213,7 @@ loadData();
 
 }catch(e){
 
-updateStatus("❌ Transaction failed");
+updateStatus("❌ Transaction failed or rejected");
 
 }
 
@@ -175,7 +221,7 @@ updateStatus("❌ Transaction failed");
 
 async function register(){
 
-const ref=document.getElementById("ref").value;
+const ref = document.getElementById("ref").value;
 
 handleTx(contract.register(ref));
 
@@ -183,9 +229,9 @@ handleTx(contract.register(ref));
 
 async function approveTRC(){
 
-const amount=document.getElementById("approveAmount").value;
+const amount = document.getElementById("approveAmount").value;
 
-const value=ethers.utils.parseUnits(amount,18);
+const value = ethers.utils.parseUnits(amount,18);
 
 handleTx(token.approve(contractAddress,value));
 
@@ -209,3 +255,5 @@ handleTx(contract.claimReward());
 }
 
 setInterval(loadData,10000);
+
+window.onload = initChart;

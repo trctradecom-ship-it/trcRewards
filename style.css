@@ -25,10 +25,6 @@ border-radius:10px;
 margin-bottom:15px;
 }
 
-.mainBtn{
-margin-bottom:15px;
-}
-
 button{
 background:linear-gradient(90deg,#FFD700,#ff7a00);
 border:none;
@@ -37,13 +33,13 @@ border-radius:8px;
 width:100%;
 font-weight:bold;
 margin-top:10px;
-transition:0.3s;
 cursor:pointer;
+transition:0.3s;
 }
 
 button:hover{
 transform:scale(1.05);
-box-shadow:0 0 12px gold;
+box-shadow:0 0 15px gold;
 }
 
 input{
@@ -75,14 +71,16 @@ padding:10px;
 border-radius:8px;
 }
 
+.chartBox{
+background:#020617;
+padding:15px;
+border-radius:10px;
+margin-bottom:15px;
+}
+
 #status a{
 color:#FFD700;
 font-weight:bold;
-text-decoration:none;
-}
-
-#status a:hover{
-text-shadow:0 0 10px gold;
 }
 
 @media(max-width:600px){

@@ -194,6 +194,8 @@ let nextEpoch = start + ((epochNumber + 1) * epochLength);
 
 let remaining = nextEpoch - now;
 
+if(remaining < 0) remaining = 0;
+
 let d = Math.ceil(remaining / 86400);
 let h = Math.floor((remaining % 86400) / 3600);
 let m = Math.floor((remaining % 3600) / 60);

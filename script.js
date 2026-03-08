@@ -16,6 +16,7 @@ const abi = [
 "function epochTotalWeight() view returns(uint256)",
 "function pendingReward(address) view returns(uint256)",
 "function getTRCPriceUSD() view returns(uint256)",
+"function totalWeight() view returns(uint256)",
 "function users(address) view returns(address,uint8,uint256,uint256,uint256)",
 
 "function register(address)",
@@ -134,16 +135,24 @@ const userData = await contract.users(user);
 document.getElementById("level").innerText = userData[1];
 document.getElementById("baseWeight").innerText = userData[2].toString();
 document.getElementById("tempWeight").innerText = userData[3].toString();
-document.getElementById("totalWeight").innerText =
-ethers.utils.formatUnits(await contract.totalWeight(),0); 
 
-// FIXED EPOCH START TIME
-const start = Math.floor(new Date("2026-03-07T21:00:00+05:30").getTime()/1000);
+/* TOTAL WEIGHT */
+
+try{
+const totalWeight = await contract.totalWeight();
+document.getElementById("totalWeight").innerText =
+ethers.utils.formatUnits(totalWeight,0);
+}catch(e){
+console.log("Total weight error",e);
+}
+
+/* EPOCH TIME FROM CONTRACT */
+
+const start = (await contract.epochStart()).toNumber();
 
 document.getElementById("epochStart").innerText = formatTime(start);
 
 const epochLength = 7 * 24 * 60 * 60;
-const claimLength = 14 * 24 * 60 * 60;
 
 const next = start + epochLength;
 
@@ -163,8 +172,7 @@ setInterval(async()=>{
 
 try{
 
-// FIXED START
-const start = Math.floor(new Date("2026-03-07T21:00:00+05:30").getTime()/1000);
+const start = (await contract.epochStart()).toNumber();
 
 const epochLength = 7 * 24 * 60 * 60;
 const claimLength = 14 * 24 * 60 * 60;

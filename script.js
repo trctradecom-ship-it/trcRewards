@@ -238,7 +238,7 @@ setInterval(() => {
         cd + " days " + ch + " hr " + cm + " min " + cs + " sec";
 
 }, 1000);
-
+}
 async function handleTx(tx){
 
 try{

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 
-<head>  
+<head>
 
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>TRC Pro Dashboard</title>
@@ -20,14 +20,12 @@
 <h1>TRC PRO DASHBOARD</h1>
 
 <div class="topbar">
-
 <div>
 TRC Price
 <span id="price">$0</span>
 </div>
 
 <div id="wallet">Wallet Not Connected</div>
-
 </div>
 
 <button onclick="connectWallet()" class="mainBtn">
@@ -43,32 +41,34 @@ Connect Wallet
 <h2>System Info</h2>
 
 <div class="grid">
-  <div>User Level<br><span id="level"></span></div>
 
-<div>Base Weight<br><span id="baseWeight"></span></div>
+<div>User Level<br><span id="level">0</span></div>
 
-<div>Temp Weight<br><span id="tempWeight"></span></div>
+<div>Base Weight<br><span id="baseWeight">0</span></div>
 
-<div>Epoch Weight<br><span id="epochWeight"></span></div>
+<div>Temp Weight<br><span id="tempWeight">0</span></div>
 
-<div>Current Epoch<br><span id="epoch"></span></div>
+<div>Epoch Weight<br><span id="epochWeight">0</span></div>
 
-<div>User Level<br><span id="level"></span></div>
+<div>Current Epoch<br><span id="epoch">0</span></div>
 
-<div>Downline Count<br><span id="downline"></span></div>
+<div>Downline Count<br><span id="downline">0</span></div>
 
-<div>Pending Reward<br><span id="pending"></span></div>
+<div>Pending Reward<br><span id="pending">0</span></div>
 
-<div>Epoch Countdown<br><span id="epochTimer"></span></div>
+<div>Epoch Start<br><span id="epochStart">-</span></div>
 
-<div>Next Claim<br><span id="claimTimer"></span></div>
+<div>Next Epoch<br><span id="nextEpoch">-</span></div>
+
+<div>Epoch Countdown<br><span id="epochTimer">-</span></div>
+
+<div>Next Claim<br><span id="claimTimer">-</span></div>
 
 </div>
 
 </div>
 
 <div class="card">
-
 <h2>Register</h2>
 
 <input id="ref" placeholder="Referral Address">
@@ -77,7 +77,6 @@ Connect Wallet
 </div>
 
 <div class="card">
-
 <h2>Approve TRC</h2>
 
 <input id="approveAmount" placeholder="TRC Amount">
@@ -103,19 +102,13 @@ Connect Wallet
 </div>
 
 <div class="card">
-
 <h2>Claim Reward</h2>
-
 <button onclick="claimReward()">Claim Weekly Reward</button>
-
 </div>
 
 <div class="card">
-
 <h2>Transaction Status</h2>
-
 <p id="status"></p>
-
 </div>
 
 </div>

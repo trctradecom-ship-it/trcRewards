@@ -36,12 +36,12 @@ function updateStatus(msg){
 document.getElementById("status").innerHTML=msg;
 }
 
-function human(value){
-return Number(ethers.utils.formatUnits(value,18)).toFixed(2);
+function human(v){
+return Number(ethers.utils.formatUnits(v,18)).toFixed(4);
 }
 
-function usd(value){
-return Number(value/1e8).toFixed(2);
+function usd(v){
+return Number(ethers.utils.formatUnits(v,18)).toFixed(4);
 }
 
 function formatTime(ts){
@@ -89,23 +89,17 @@ human(await contract.epochTotalWeight());
 
 const userData=await contract.users(user);
 
-document.getElementById("level").innerText=userData.level;
+document.getElementById("level").innerText=userData[1];
+document.getElementById("baseWeight").innerText=human(userData[2]);
+document.getElementById("tempWeight").innerText=human(userData[3]);
 
-document.getElementById("baseWeight").innerText=
-human(userData.baseWeight);
-
-document.getElementById("tempWeight").innerText=
-human(userData.tempWeight);
-
-const start=await contract.epochStart();
+const start=(await contract.epochStart()).toNumber();
 
 document.getElementById("epochStart").innerText=formatTime(start);
 
 let next=start+604800;
 
 document.getElementById("nextEpoch").innerText=formatTime(next);
-
-document.getElementById("nextClaim").innerText=formatTime(next);
 
 }catch(e){
 console.log(e);
@@ -119,10 +113,12 @@ setInterval(async()=>{
 
 try{
 
-const start=await contract.epochStart();
+const start=(await contract.epochStart()).toNumber();
+
 let next=start+604800;
 
 let now=Math.floor(Date.now()/1000);
+
 let diff=next-now;
 
 if(diff<0) diff=0;
@@ -171,7 +167,7 @@ loadData();
 
 }catch(e){
 
-updateStatus("❌ Transaction failed or rejected");
+updateStatus("❌ Transaction failed");
 
 }
 

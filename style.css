@@ -1,193 +1,74 @@
 body{
-background:black;
+background:#000;
 color:white;
 font-family:Arial;
-margin:0;
-}
-
-.container{
-max-width:900px;
-margin:auto;
-padding:15px;
+text-align:center;
 }
 
 h1{
-text-align:center;
 color:#FFD700;
+margin:20px;
 }
 
-.topbar{
+.container{
 display:flex;
-justify-content:space-between;
-background:#0f172a;
-padding:12px;
+justify-content:center;
+gap:30px;
+}
+
+.chart-box{
+width:700px;
+height:400px;
+background:#111;
+padding:10px;
 border-radius:10px;
-margin-bottom:15px;
 }
 
-button{
-background:linear-gradient(90deg,#FFD700,#ff7a00);
-border:none;
-padding:12px;
-border-radius:8px;
+#chart{
 width:100%;
-font-weight:bold;
-margin-top:10px;
-cursor:pointer;
-transition:0.3s;
+height:100%;
 }
 
-button:hover{
-transform:scale(1.05);
-box-shadow:0 0 15px gold;
+.trade-box{
+background:#111;
+padding:20px;
+border-radius:10px;
+width:250px;
 }
 
 input{
 width:100%;
-padding:12px;
-border:none;
-border-radius:8px;
-background:#1e293b;
-color:white;
+padding:10px;
 margin-top:10px;
 }
 
-.card{
-background:#020617;
-padding:15px;
-border-radius:10px;
-margin-top:15px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-}
-
-.grid div{
-background:#111827;
-padding:10px;
-border-radius:8px;
-}
-
-.chartBox{
-background:#020617;
-padding:15px;
-border-radius:10px;
-margin-bottom:15px;
-}
-
-#status a{
-color:#FFD700;
-font-weight:bold;
-}
-
-@media(max-width:600px){
-
-.grid{
-grid-template-columns:1fr;
-}
-
-.topbar{
-flex-direction:column;
-gap:5px;
-}
-
-}
-
-/* GLOBAL MOBILE FIX */
-
-body{
-margin:0;
-padding:10px;
-background:#000;
-color:white;
-font-family:Arial;
-overflow-x:hidden;
-}
-
-/* MAIN CONTAINER */
-
-.mainContainer{
-width:100%;
-max-width:100%;
-box-sizing:border-box;
-}
-
-/* TOP BAR */
-
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-gap:10px;
-}
-
-/* WALLET ADDRESS FIX */
-
-.walletAddress{
-font-size:12px;
-word-break: break-all;
-overflow-wrap: break-word;
-max-width:100%;
-}
-
-/* BUTTON FIX */
-
 button{
 width:100%;
-padding:12px;
+padding:10px;
+margin-top:10px;
 border:none;
-border-radius:8px;
+border-radius:5px;
+cursor:pointer;
 }
 
-/* CARD STYLE */
-
-.card{
-margin-top:20px;
-padding:15px;
-border-radius:12px;
-background:#081a2f;
+#buyBtn{
+background:#00c853;
+color:white;
 }
 
-/* GRID MOBILE */
-
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
+#sellBtn{
+background:#ff1744;
+color:white;
 }
 
-/* CHART BOX */
-
-.chartBox{
-width:100%;
-overflow:hidden;
+table{
+width:80%;
+margin:auto;
+margin-top:30px;
+border-collapse:collapse;
 }
 
-/* MOBILE OPTIMIZATION */
-
-@media screen and (max-width:600px){
-
-h1{
-font-size:24px;
-text-align:center;
-}
-
-.grid{
-grid-template-columns:1fr;
-}
-
-.walletAddress{
-font-size:10px;
-}
-
- #price{
-color:#16c784;
-font-weight:bold;
-text-shadow:0 0 6px #16c784;
-} 
-  
+th,td{
+border:1px solid #333;
+padding:10px;
 }

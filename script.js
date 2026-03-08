@@ -207,14 +207,13 @@ document.getElementById("epochTimer").innerText =
 d + " days " + h + " hr " + m + " min";
 
 /* NEXT CLAIM */
-
 let claimNumber = Math.floor((now - start) / claimLength);
-if(claimNumber < 0) claimNumber = 0;
+if (claimNumber < 0) claimNumber = 0;
 
 let nextClaim = start + ((claimNumber + 1) * claimLength);
 
 let claimRemaining = nextClaim - now;
-if(claimRemaining < 0) claimRemaining = 0;
+if (claimRemaining < 0) claimRemaining = 0;
 
 let cd = Math.floor(claimRemaining / 86400);
 claimRemaining = claimRemaining % 86400;
@@ -223,9 +222,10 @@ let ch = Math.floor(claimRemaining / 3600);
 claimRemaining = claimRemaining % 3600;
 
 let cm = Math.floor(claimRemaining / 60);
+let cs = claimRemaining % 60; // seconds
 
 document.getElementById("claimTimer").innerText =
-cd + " days " + ch + " hr " + cm + " min";
+cd + " days " + ch + " hr " + cm + " min " + cs + " sec";
 
 }catch(e){
 console.log(e);

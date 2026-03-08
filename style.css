@@ -95,3 +95,93 @@ gap:5px;
 }
 
 }
+
+/* GLOBAL MOBILE FIX */
+
+body{
+margin:0;
+padding:10px;
+background:#000;
+color:white;
+font-family:Arial;
+overflow-x:hidden;
+}
+
+/* MAIN CONTAINER */
+
+.mainContainer{
+width:100%;
+max-width:100%;
+box-sizing:border-box;
+}
+
+/* TOP BAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:10px;
+}
+
+/* WALLET ADDRESS FIX */
+
+.walletAddress{
+font-size:12px;
+word-break: break-all;
+overflow-wrap: break-word;
+max-width:100%;
+}
+
+/* BUTTON FIX */
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+}
+
+/* CARD STYLE */
+
+.card{
+margin-top:20px;
+padding:15px;
+border-radius:12px;
+background:#081a2f;
+}
+
+/* GRID MOBILE */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+/* CHART BOX */
+
+.chartBox{
+width:100%;
+overflow:hidden;
+}
+
+/* MOBILE OPTIMIZATION */
+
+@media screen and (max-width:600px){
+
+h1{
+font-size:24px;
+text-align:center;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.walletAddress{
+font-size:10px;
+}
+
+}

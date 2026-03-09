@@ -283,3 +283,39 @@ font-size:15px;
 }
 
 }
+
+
+
+@media (max-width: 600px) {
+
+.calculator-card{
+width:100%;
+padding:18px;
+box-sizing:border-box;
+}
+
+.calc-grid{
+display:flex;
+flex-direction:column;
+gap:12px;
+width:100%;
+}
+
+.input-group{
+width:100%;
+}
+
+.input-group input{
+width:100%;
+box-sizing:border-box;
+padding:12px;
+border-radius:8px;
+}
+
+.calc-btn{
+width:100%;
+margin-top:15px;
+}
+
+}
+

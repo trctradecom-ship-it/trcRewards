@@ -351,3 +351,41 @@ font-weight:600;
 }
 
 }
+
+/* ===== FIX INPUT & BUTTON OVERFLOW INSIDE CARDS ===== */
+
+.card input,
+.card button{
+width:100%;
+max-width:100%;
+box-sizing:border-box;
+}
+
+/* FIX GRID CONTENT OVERFLOW */
+
+.grid div{
+width:100%;
+box-sizing:border-box;
+overflow:hidden;
+}
+
+/* FIX REGISTER / APPROVE SECTION */
+
+.card{
+width:100%;
+box-sizing:border-box;
+overflow:hidden;
+}
+
+/* MOBILE SAFETY */
+
+@media (max-width:600px){
+
+.card input,
+.card button{
+width:100%;
+box-sizing:border-box;
+}
+
+}
+

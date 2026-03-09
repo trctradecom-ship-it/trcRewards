@@ -16,6 +16,7 @@ const abi = [
   "function pendingReward(address) view returns(uint256)",
   "function getTRCPriceUSD() view returns(uint256)",
   "function totalWeight() view returns(uint256)",
+  "function rewardPool() view returns(uint256)",
   "function users(address) view returns(address,uint8,uint256,uint256,uint256)",
   "function register(address)",
   "function joinLevel1()",
@@ -110,6 +111,11 @@ async function loadData(){
     document.getElementById("pending").innerText =
       human(await contract.pendingReward(user));
 
+    /* REWARD POOL */
+    const rewardPool = await contract.rewardPool();
+    document.getElementById("rewardPool").innerText =
+      human(rewardPool);
+    
     document.getElementById("epochWeight").innerText =
       (await contract.epochTotalWeight()).toString();
 

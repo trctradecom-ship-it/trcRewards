@@ -272,7 +272,7 @@ let total = parseFloat(document.getElementById("totalWeight").value);
 
 let userWeight = base + temp;
 
-if(!pool || !total){
+if(isNaN(pool) || isNaN(total)){
 document.getElementById("rewardResult").innerText = "Enter required values";
 return;
 }

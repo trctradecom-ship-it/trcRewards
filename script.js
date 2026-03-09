@@ -175,34 +175,34 @@ function startTimers(){
   },1000);
 }
 
-/* INDEPENDENT NEXT CLAIM COUNTDOWN - RUNS EVERY 7 DAYS FOREVER */
-function startClaimCountdown(){
+/* INDEPENDENT NEXT CLAIM COUNTDOWN - RUNS EVERY FRIDAY FOREVER */
+function startClaimCountdown() {
   const claimLength = 7 * 24 * 60 * 60; // 7 days in seconds
-  let now = Math.floor(Date.now()/1000);
-  let nextClaim = now + claimLength;
+  const referenceFriday = new Date("2026-03-06T00:00:00Z").getTime() / 1000; // fixed Friday reference
 
   setInterval(() => {
-    let now = Math.floor(Date.now()/1000);
-    let claimRemaining = nextClaim - now;
+    const now = Math.floor(Date.now() / 1000);
 
-    if(claimRemaining <= 0){
-      nextClaim = now + claimLength; // reset for next 7 days
-      claimRemaining = nextClaim - now;
+    // Seconds elapsed since reference Friday
+    const elapsed = now - referenceFriday;
+
+    // Seconds remaining until next Friday
+    let claimRemaining = claimLength - (elapsed % claimLength);
+
+    const cd = Math.floor(claimRemaining / 86400);
+    claimRemaining %= 86400;
+    const ch = Math.floor(claimRemaining / 3600);
+    claimRemaining %= 3600;
+    const cm = Math.floor(claimRemaining / 60);
+    const cs = claimRemaining % 60;
+
+    const timerEl = document.getElementById("claimTimer");
+    if (timerEl) {
+      timerEl.innerText = `${cd} days ${ch} hr ${cm} min ${cs} sec`;
     }
 
-    let cd = Math.floor(claimRemaining / 86400);
-    claimRemaining %= 86400;
-    let ch = Math.floor(claimRemaining / 3600);
-    claimRemaining %= 3600;
-    let cm = Math.floor(claimRemaining / 60);
-    let cs = claimRemaining % 60;
-
-    document.getElementById("claimTimer").innerText =
-      cd + " days " + ch + " hr " + cm + " min " + cs + " sec";
-
-  },1000);
+  }, 1000);
 }
-
 async function handleTx(tx){
   try{
     updateStatus("⏳ Transaction sent...");

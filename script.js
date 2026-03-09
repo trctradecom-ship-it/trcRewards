@@ -260,3 +260,31 @@ async function claimReward(){
 
 setInterval(loadData,10000);
 window.onload = initChart;
+
+
+
+function calculateReward(){
+
+let pool = parseFloat(document.getElementById("pool").value);
+let base = parseFloat(document.getElementById("baseWeight").value) || 0;
+let temp = parseFloat(document.getElementById("tempWeight").value) || 0;
+let total = parseFloat(document.getElementById("totalWeight").value);
+
+let userWeight = base + temp;
+
+if(!pool || !total){
+document.getElementById("rewardResult").innerText = "Enter required values";
+return;
+}
+
+if(total == 0){
+document.getElementById("rewardResult").innerText = "Total weight cannot be 0";
+return;
+}
+
+let reward = (pool * userWeight) / total;
+
+document.getElementById("rewardResult").innerText =
+"Estimated Reward: " + reward.toFixed(4);
+
+}

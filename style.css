@@ -191,3 +191,95 @@ text-shadow:0 0 6px #16c784;
 } 
   
 }
+
+
+
+/* =========================
+   Reward Calculator Styles
+   ========================= */
+
+.calculator-card{
+margin-top:30px;
+padding:20px;
+border-radius:12px;
+background:#0b2a45;
+box-shadow:0 0 10px rgba(0,0,0,0.4);
+}
+
+.calc-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-top:15px;
+}
+
+.input-group{
+display:flex;
+flex-direction:column;
+}
+
+.input-group label{
+font-size:14px;
+margin-bottom:5px;
+color:#ffffff;
+}
+
+.input-group input{
+padding:12px;
+border-radius:8px;
+border:none;
+outline:none;
+background:#081b2f;
+color:#ffffff;
+font-size:14px;
+}
+
+.input-group input::placeholder{
+color:#aaa;
+}
+
+.calc-btn{
+width:100%;
+margin-top:20px;
+padding:14px;
+border:none;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+background:linear-gradient(90deg,#ffcc00,#ff7b00);
+color:#000;
+transition:0.2s;
+}
+
+.calc-btn:hover{
+transform:scale(1.02);
+}
+
+.reward-result{
+margin-top:18px;
+text-align:center;
+font-size:18px;
+font-weight:bold;
+color:#ffcc00;
+}
+
+/* =========================
+   Mobile Responsive
+   ========================= */
+
+@media (max-width:768px){
+
+.calc-grid{
+grid-template-columns:1fr;
+}
+
+.calculator-card{
+padding:18px;
+}
+
+.calc-btn{
+font-size:15px;
+}
+
+}

@@ -265,10 +265,20 @@ window.onload = initChart;
 
 function calculateReward(){
 
+// AUTO FILL FROM DASHBOARD
+document.getElementById("calcBaseWeight").value =
+document.getElementById("baseWeight").innerText;
+
+document.getElementById("calcTempWeight").value =
+document.getElementById("tempWeight").innerText;
+
+document.getElementById("calcTotalWeight").value =
+document.getElementById("totalWeight").innerText;
+  
 let pool = parseFloat(document.getElementById("pool").value);
-let base = parseFloat(document.getElementById("baseWeight").value) || 0;
-let temp = parseFloat(document.getElementById("tempWeight").value) || 0;
-let total = parseFloat(document.getElementById("totalWeight").value);
+let base = parseFloat(document.getElementById("calcBaseWeight").value) || 0;
+let temp = parseFloat(document.getElementById("calcTempWeight").value) || 0;
+let total = parseFloat(document.getElementById("calcTotalWeight").value);
 
 let userWeight = base + temp;
 

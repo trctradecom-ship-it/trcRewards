@@ -115,6 +115,44 @@ Connect Wallet
 <h2>Transaction Status</h2>
 <p id="status"></p>
 </div>
+  
+<!-- Reward Calculator -->
+<div class="card calculator-card">
+
+<h2>Reward Calculator</h2>
+
+<div class="calc-grid">
+
+<div class="input-group">
+<label>Reward Pool</label>
+<input type="number" id="pool" placeholder="Enter reward pool">
+</div>
+
+<div class="input-group">
+<label>Base Weight</label>
+<input type="number" id="baseWeight" placeholder="Enter base weight">
+</div>
+
+<div class="input-group">
+<label>Temp Weight</label>
+<input type="number" id="tempWeight" placeholder="Enter temp weight">
+</div>
+
+<div class="input-group">
+<label>Total Weight</label>
+<input type="number" id="totalWeight" placeholder="Enter total weight">
+</div>
+
+</div>
+
+<button class="calc-btn" onclick="calculateReward()">
+Calculate Reward
+</button>
+
+<div id="rewardResult" class="reward-result"></div>
+
+</div>
+
 
 </div>
 
